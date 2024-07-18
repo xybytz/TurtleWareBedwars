@@ -4194,3 +4194,182 @@ FakeLag = Legit.NewButton({
 		end
 	end,
 })
+
+local function FpsBoost()
+	for i, v in next, CollectionService:GetTagged("block") do
+			v.Material = Enum.Material.SmoothPlastic
+			for i2, v2 in next, (v:GetDescendants()) do
+				if v2:IsA("BasePart") then
+					v2.Material = Enum.Material.SmoothPlastic
+				end
+			end
+	end
+end
+
+FPS = Misc.NewButton({
+	Name = "FpsBooster",
+	Function = function(callback)
+		if callback then
+            FpsBoost()
+		end
+	end,
+})
+
+local DecalId = 13528140280
+
+local function CreateCape(DecalId)
+	local Cape = Instance.new("Part")
+
+	Cape.Parent = LocalPlayer.Character
+	Cape.Name = "Cape"
+	Cape.Size = Vector3.new(0.2, 0.2, 0.08)
+	Cape.Material = Enum.Material.SmoothPlastic
+	Cape.Color = Color3.new(0.105882, 0.105882, 0.105882)
+	Cape.CanCollide = false
+
+	local BlockMesh = Instance.new("BlockMesh")
+
+	BlockMesh.Parent = Cape
+	BlockMesh.Name = "Mesh"
+	BlockMesh.Scale = Vector3.new(9, 17.5, 0.5)
+	BlockMesh.VertexColor = Vector3.new(1, 1, 1)
+
+	local Motor = Instance.new("Motor")
+
+	Motor.Parent = Cape
+	Motor.Name = "Motor"
+	Motor.C0 = CFrame.new(0, 2, 0, -4.37113883e-08, 0, 1, 0, 1, 0, -1, 0, -4.37113883e-08)
+	Motor.C1 = CFrame.new(0, 1, 0.449999988, -4.37113883e-08, 0, 1, 0, 1, 0, -1, 0, -4.37113883e-08)
+	Motor.Part1 = LocalPlayer.Character.UpperTorso
+	Motor.Part0 = Cape
+	Motor.CurrentAngle = -0.16208772361278534
+	Motor.DesiredAngle = -0.1002269834280014
+
+	local Decal = Instance.new("Decal")
+
+	Decal.Parent = Cape
+	Decal.Name = "Decal"
+	Decal.Face = Enum.NormalId.Back
+	Decal.Texture = DecalId
+end
+
+CAPES = Visuals.NewButton({
+	Name = "Cape",
+	Function = function(callback)
+		if callback then
+			if IsAlive(LocalPlayer) and not LocalPlayer.Character:FindFirstChild("Cape") then
+				CreateCape("rbxassetid://" .. DecalId)
+			end
+            else 
+            if IsAlive(LocalPlayer) and LocalPlayer.Character:FindFirstChild("Cape") then
+					LocalPlayer.Character.Cape:Destroy()
+			end	
+		end
+	end,
+})
+
+task.spawn(function()
+			repeat
+				task.wait()
+
+				if IsAlive(LocalPlayer) then
+					if LocalPlayer.Character:FindFirstChild("Cape") and LocalPlayer.Character:FindFirstChild("Cape"):FindFirstChild("Motor") then
+						local TweenInformation = TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0, false, 0)
+						local CapeTween = TweenService:Create(LocalPlayer.Character.Cape.Motor, TweenInformation, {CurrentAngle = (IsMoving() and -0.6 or -0.2)})
+
+						CapeTween:Play()
+					end			
+				end		
+			until not CAPES.Enabled		
+		end)
+
+
+LocalPlayer.CharacterAdded:Connect(function()
+				task.wait(0.3)
+				
+	if CAPES.Enabled then
+		if IsAlive(LocalPlayer) and not LocalPlayer.Character:FindFirstChild("Cape") then
+			CreateCape("rbxassetid://" .. DecalId)
+		end
+	end						
+end)
+
+local function GetEquippedKit()
+	if ClientGotten == true then
+		return ClientHandlerStore:getState().Bedwars.kit
+	end
+
+	if ClientGotten == false then
+		return nil
+	end
+end
+
+local DestroyPetrifiedPlayerRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("DestroyPetrifiedPlayer")
+local HannahPromptTriggerRemote = nil
+local TrinitySetAngelTypeRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("SetAngelType")
+
+
+task.spawn(function()
+	if ClientGotten then
+		HannahPromptTriggerRemote = Client:Get("HannahPromptTrigger")
+	end	
+end)
+
+local function FindPetrifiedPlayer()
+	for i, v in next, WorkSpace:GetChildren() do		
+		if v:GetAttribute("PetrifyId") then
+			return v
+		end
+	end
+end
+
+local function AutoKit()
+	local PetrifiedPlayer = FindPetrifiedPlayer()
+	local NearestPlayer = getNearestPlayer(999999999)
+	local EquippedKit = GetEquippedKit()
+	
+	task.spawn(function()
+		if NearestPlayer then
+			if EquippedKit == "hannah" or nil then
+				HannahPromptTriggerRemote:CallServer({victimEntity = NearestPlayer.Character, ["user"] = LocalPlayer})
+			end
+		end
+	end)
+
+
+	task.spawn(function()
+		if PetrifiedPlayer then
+			if EquippedKit == "miner" or nil then
+				DestroyPetrifiedPlayerRemote:FireServer({petrifyId = PetrifiedPlayer:GetAttribute("PetrifyId")})
+			end
+		end
+	end)
+
+	task.spawn(function()
+		if EquippedKit == "angel" or nil then
+			TrinitySetAngelTypeRemote:FireServer({angel = "Void"})
+		end
+	end)
+end
+
+function RecallPlayer()
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, "C" , false , game)
+    
+    task.wait(6.3)     
+    
+    RecallPlayerTweenToNearestPlayer()
+end
+
+
+AutoKit = Player.NewButton({
+	Name = "AutoKit",
+	Function = function(callback)
+		if callback then
+			repeat
+			AutoKit()
+			task.wait(.1)
+			until not AutoKit.Enabled
+		end
+	end,
+})
+
