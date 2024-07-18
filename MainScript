@@ -849,7 +849,7 @@ Killaura = Combat.NewButton({
 
 				if nearest ~= nil then
 					if DragonAnimation.Enabled then
-				 game:GetService("ReplicatedStorage").rbxts_include.node_modules["@rbxts"].net.out._NetManaged.DragonBreath:FireServer("")
+						game:GetService("ReplicatedStorage").rbxts_include.node_modules["@rbxts"].net.out._NetManaged.DragonBreath:FireServer("")
 					end
 					local nearestCharacter = nearest.Character
 					local nearestPrimaryPartPosition = nearestCharacter.PrimaryPart.Position
@@ -885,7 +885,7 @@ Killaura = Combat.NewButton({
 			end)
 
 			task.spawn(function()
-				repeat task.wait()
+				repeat task.wait(0)
 					if getNearestPlayer(22) ~= nil then
 						pcall(function()
 							local animation = auraAnimations[auraAnimation.Option]
@@ -955,7 +955,7 @@ Killaura = Combat.NewButton({
 								targetInfo.Position = UDim2.fromScale(0.6,0.5)
 								targetInfo.TextColor3 = Color3.fromRGB(255,255,255)
 								targetInfo.Text = "  "..nearest.DisplayName
-								targetInfo.TextScaled = true
+								--targetInfo.TextScaled = true
 								targetInfo.TextXAlignment = Enum.TextXAlignment.Left
 							end)	
 						end
@@ -997,16 +997,7 @@ ToolCheck = Killaura.NewToggle({
 	Name = "ToolCheck",
 	Function = function() end
 })
-DragonAnimation = Killaura.NewToggle({
-Name = "DragonAnimation", 
-Function = function() end
-})
-
-
-table.insert(spawnConnections,function(char)
-	task.wait(1)
-	viewmodel = workspace.Camera.Viewmodel.RightHand.RightWrist
-end)
+DragonAnimation = Killaura.NewToggle({Name = "DragonAnimation", Function = function() end})
 
 table.insert(spawnConnections,function(char)
 	task.wait(1)
@@ -4372,4 +4363,3 @@ AutoKit = Player.NewButton({
 		end
 	end,
 })
-
