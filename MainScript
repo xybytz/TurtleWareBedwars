@@ -31,7 +31,7 @@ local CollectionService = game:GetService("CollectionService")
 local netmanaged = ReplicatedStorage.rbxts_include.node_modules["@rbxts"].net.out._NetManaged
 local PurchaseItemRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BedwarsPurchaseItem")
 local ResetCharacterRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("ResetCharacter")
-
+local ToggleSound = false
 
 local function StopAnim()
 local plr = game.Players.LocalPlayer
@@ -138,11 +138,11 @@ library.Array.Background = true
 library.Array.SortMode = "TextLength"
 library.Array.BlurEnabled = true
 library.Array.Bold = true
-library.Array.BackgroundTransparency = 0.6
-library.Array.TextTransparency = 0
-library.Array.Rounded = true
+library.Array.BackgroundTransparency = 1
+library.Array.TextTransparency = 0.5
+library.Array.Rounded = false
 
-library.Array.Font = 14
+library.Array.Font = 26
 
 
 library.Color = Color3.fromRGB(158, 146, 175)
@@ -164,10 +164,8 @@ sort.SortOrder = Enum.SortOrder.LayoutOrder
 
 local arrayStuff = {}
 
-local id = "http://www.roblox.com/asset/?id=7498352732"
-
 local arrayListFrame = Instance.new("Frame",ScreenGui)
-arrayListFrame.Size = UDim2.fromScale(0.2,1)
+arrayListFrame.Size = UDim2.fromScale(0.2,0.9)
 arrayListFrame.Position = UDim2.fromScale(0.780,0.03)
 arrayListFrame.BackgroundTransparency = 1
 arrayListFrame.Name = "ArrayList"
@@ -182,11 +180,11 @@ sort.HorizontalAlignment = Enum.HorizontalAlignment.Right
 	label.BorderSizePixel = 0
 	label.TextColor3 = Color3.fromRGB(math.random(1,255),math.random(1,255),math.random(1,255))
 	label.BackgroundTransparency = 1
-	label.Size = UDim2.fromScale(0.335,0.105)
-	label.Position = UDim2.fromScale(-0.008,0.01)
+	label.Size = UDim2.fromScale(0.210,0.70)
+	label.Position = UDim2.fromScale(-0.0089,0.9)
 	label.Name = "Mark"
-    label.Font = 25
-    label.ZIndex = 0
+    label.Font = 26
+    label.ZIndex = 5
     label.TextScaled = true
     local stroke = Instance.new("UIStroke",label)
     stroke.Thickness = 2
@@ -200,19 +198,19 @@ local arraylist = {
 	Create = function(o)
 		local item = Instance.new("TextLabel",arrayListFrame)
 		item.Text = o
-		item.BackgroundTransparency = 0.3
+		item.BackgroundTransparency = 0
 		item.BorderSizePixel = 0
-		item.BackgroundColor3 = Color3.fromRGB(0,0,0)
-		item.Size = UDim2.new(0,0,0,0)
+		item.BackgroundColor3 = Color3.fromRGB(50,50,50)
+		item.Size = UDim2.new(0.1,0.1,0.1,0.1)
 		item.TextColor3 = Color3.fromRGB(255,255,255)
-        item.Font = 14
-		local glow = Instance.new("ImageLabel",item)
-		glow.Size = UDim2.fromScale(4,4)
-		glow.BackgroundTransparency = 1
-		glow.Image = imageId
-		glow.ImageTransparency = 0.3
-		glow.Position = UDim2.fromScale(-1,-1.5)
-		glow.ZIndex = -10
+        item.Font = 26
+        local Strokez = Instance.new("UIStroke",item)
+        Strokez.Thickness = 2
+        Strokez.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+        local Strokez2 = Instance.new("UIStroke",item)
+        Strokez2.Thickness = 2
+        Strokez2.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+		
 
 		
 		if library.Array.Rounded then
@@ -224,7 +222,7 @@ local arraylist = {
 			Size = size,
 		}):Play()
 
-		item.BackgroundTransparency = library.Array.Background and 0.3 or 1
+		item.BackgroundTransparency = 0
 
 		item.TextTransparency = 0
 
@@ -305,16 +303,23 @@ end
 library.NewWindow = function(name)
 
 	local textlabel = Instance.new("TextLabel", ScreenGui)
-	textlabel.Position = UDim2.fromScale(0.1 + (library.WindowCount / 8), 0.1)
+	textlabel.Position = UDim2.fromScale(0.1 + (library.WindowCount / 9), 0.1)
 	textlabel.Size = UDim2.fromScale(0.1, 0.0425)
 	textlabel.Text = name
+    textlabel.TextScaled = true
 	textlabel.Name = name
-	textlabel.BorderSizePixel = 2
+	textlabel.BorderSizePixel = 0
     textlabel.TextSize = 15
 	textlabel.BackgroundColor3 = Color3.fromRGB(35,35,35)
 	textlabel.TextColor3 = Color3.fromRGB(255,255,255)
-    textlabel.Font = 11
+    textlabel.Font = 26
 	textlabel.ZIndex = 2
+    local broder = Instance.new("UIStroke",textlabel)
+    broder.Thickness = 3
+    broder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    local buttonstroke5 = Instance.new("UIStroke",textlabel)
+    buttonstroke5.Thickness = 2
+    buttonstroke5.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
 
 	local modules = Instance.new("Frame", textlabel)
 	modules.Size = UDim2.fromScale(1, 5)
@@ -362,12 +367,28 @@ library.NewWindow = function(name)
 		textbutton.Size = UDim2.fromScale(1, 0.2)
 		textbutton.Position = UDim2.fromScale(0,0)
 		textbutton.BackgroundColor3 = Color3.fromRGB(60,60,60)
-		textbutton.BorderSizePixel = 1
+		textbutton.BorderSizePixel = 0
         textbutton.TextSize = 14
 		textbutton.Text = Table.Name
 		textbutton.Name = Table.Name
-        textbutton.Font = 11
+        textbutton.Font = 26
 		textbutton.TextColor3 = Color3.fromRGB(255,255,255)
+        local buttonstroke = Instance.new("UIStroke",textbutton)
+        buttonstroke.Thickness = 3
+        buttonstroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+        local buttonstroke4 = Instance.new("UIStroke",textbutton)
+        buttonstroke4.Thickness = 2
+        buttonstroke4.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual
+        local sound = Instance.new("Sound")
+        sound.Volume = 3
+        sound.Looped = false
+        sound.Parent = game.workspace
+        sound.SoundId = "rbxassetid://535716488"
+        textbutton.MouseButton1Click:Connect(function()
+            if ToggleSound == true then 
+                sound:Play()
+            end 
+        end)
 
 		local dropdown = Instance.new("Frame", textbutton)
 		dropdown.Position = UDim2.fromScale(0,1)
@@ -420,7 +441,10 @@ library.NewWindow = function(name)
 			textbutton2.Text = v.Name
 			textbutton2.Name = v.Name
 			textbutton2.TextColor3 = Color3.fromRGB(255,255,255)
-            textbutton2.Font = 11
+            textbutton2.Font = 26
+            local buttonstroke3 = Instance.new("UIStroke",textbutton2)
+            buttonstroke3.Thickness = 2
+            buttonstroke3.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 			local v2 = {}
 			v2.Enabled = Enabled
@@ -466,7 +490,10 @@ library.NewWindow = function(name)
 			textbutton2.Text = v.Name.." - "..v.Options[1]
 			textbutton2.Name = v.Name
 			textbutton2.TextColor3 = Color3.fromRGB(255,255,255)
-            textbutton2.Font = 11
+            textbutton2.Font = 26
+            local buttonstroke3 = Instance.new("UIStroke",textbutton2)
+            buttonstroke3.Thickness = 2
+            buttonstroke3.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
 			local v2 = {
 				Option = v.Options[1]
@@ -567,6 +594,9 @@ library.NewWindow = function(name)
 			Box.Name = "KeybindBox"
 			Box.TextColor3 = Color3.fromRGB(255,255,255)
            Box.Font = 11
+        local buttonstroke2 = Instance.new("UIStroke",Box)
+        buttonstroke2.Thickness = 2
+        buttonstroke2.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 		
 
 
@@ -701,33 +731,6 @@ local function getNearestPlayer(range)
 	return nearest
 end
 
-local function getNearestWallPlayer(range)
-    local nearest
-    local nearestDist = 9e9
-    for i,v in pairs(game.Players:GetPlayers()) do
-        pcall(function()
-            if v == LocalPlayer or v.Team == LocalPlayer.Team then return end
-            local character = v.Character
-            if character and character.Humanoid.health > 0 then
-                local direction = (character.PrimaryPart.Position - LocalPlayer.Character.PrimaryPart.Position).Unit
-                local raycastResult = workspace:Raycast(LocalPlayer.Character.PrimaryPart.Position, direction * range, {IgnoreType = Enum.IgnoreType.Part})
-                if raycastResult and raycastResult.Instance then
-                    local hitPart = raycastResult.Instance
-                    if hitPart:IsA("BasePart") and hitPart.CanCollide then
-                        -- If the raycast hits a solid object, ignore this player
-                        return
-                    end
-                end
-                if (character.PrimaryPart.Position - LocalPlayer.Character.PrimaryPart.Position).Magnitude < nearestDist and (character.PrimaryPart.Position - LocalPlayer.Character.PrimaryPart.Position).Magnitude <= range then
-                    nearest = v
-                    nearestDist = (character.PrimaryPart.Position - LocalPlayer.Character.PrimaryPart.Position).Magnitude
-                end
-            end
-        end)
-    end
-    return nearest
-end
-
 local function getRemote(name)
 	local remote
 	for i,v in pairs(game:GetDescendants()) do
@@ -852,10 +855,9 @@ Killaura = Combat.NewButton({
 						game:GetService("ReplicatedStorage").rbxts_include.node_modules["@rbxts"].net.out._NetManaged.DragonBreath:FireServer("")
 					end
 					local nearestCharacter = nearest.Character
-					local nearestPrimaryPartPosition = nearestCharacter.PrimaryPart.Position
+					local nearestPrimaryPartPosition = nearestCharacter.PrimaryPart.Position + Vector3.new(0,1,0)
 					local selfPrimaryPartPosition = PrimaryPart.Position
 					local weapon = getBestWeapon()
-
 					if not ToolCheck.Enabled then
 						spoofHand(weapon.Name)
 					end
@@ -885,7 +887,7 @@ Killaura = Combat.NewButton({
 			end)
 
 			task.spawn(function()
-				repeat task.wait(0)
+				repeat task.wait()
 					if getNearestPlayer(22) ~= nil then
 						pcall(function()
 							local animation = auraAnimations[auraAnimation.Option]
@@ -912,8 +914,11 @@ Killaura = Combat.NewButton({
 			task.spawn(function()
 				repeat
 					local nearest = getNearestPlayer(22)
+                    local nearestCharacter = nearest.Character
 
 					if nearest ~= nil then
+
+
 						local isWinning = function()
 							return nearest.Character.Humanoid.Health > Humanoid.Health
 						end
@@ -955,7 +960,7 @@ Killaura = Combat.NewButton({
 								targetInfo.Position = UDim2.fromScale(0.6,0.5)
 								targetInfo.TextColor3 = Color3.fromRGB(255,255,255)
 								targetInfo.Text = "  "..nearest.DisplayName
-								--targetInfo.TextScaled = true
+								targetInfo.TextScaled = true
 								targetInfo.TextXAlignment = Enum.TextXAlignment.Left
 							end)	
 						end
@@ -980,7 +985,6 @@ Killaura = Combat.NewButton({
 
 local animAuraTab = {}
 for i,v in pairs(auraAnimations) do table.insert(animAuraTab,i) end
-
 auraAnimation = Killaura.NewPicker({
 	Name = "Animations",
 	Options = animAuraTab
@@ -989,15 +993,29 @@ CustomAnimation = Killaura.NewToggle({
 	Name = "Animations",
 	Function = function() end
 })
-TargetHudMode = Killaura.NewPicker({
-	Name = "TargetHud",
-	Options = {"None", "Basic", "Basic2"}
-})
 ToolCheck = Killaura.NewToggle({
 	Name = "ToolCheck",
 	Function = function() end
 })
 DragonAnimation = Killaura.NewToggle({Name = "DragonAnimation", Function = function() end})
+DmgInd = Killaura.NewToggle({
+	Name = "DamageIndacators",
+	Function = function() end
+})
+TargetHudMode = Killaura.NewPicker({
+	Name = "TargetHud",
+	Options = {"None", "Basic", "Basic2"}
+})
+local box5 = ScreenGui.Combat.Frame.Killaura.DropDown.KeybindBox
+box5.Visible = true
+box5.Text = config.Keybinds.Killaura
+box5.Changed:Connect(function()
+if box5.Text ~= nil then
+    local uptext = box5.Text:upper()
+    box5.Text = uptext
+  library.Modules.Killaura.Keybind = Enum.KeyCode[box5.Text]
+end
+end)
 
 table.insert(spawnConnections,function(char)
 	task.wait(1)
@@ -1301,14 +1319,8 @@ HUDS[1] = function()
 	label.Size = UDim2.fromScale(0.075,0.035)
 	label.Position = UDim2.fromScale(0,0)
 	label.Name = "Logo"
-	local glow = Instance.new("ImageLabel",label)
-	glow.Size = UDim2.fromScale(1.8,1.5)
-	glow.Position = UDim2.fromScale(-0.35,-0.2)
-	glow.Image = id
-	glow.ImageTransparency = 0.5
-	glow.BackgroundTransparency = 1
-	glow.ImageColor3 = Color3.fromRGB(0,0,0)
-	glow.ZIndex = -10
+	local theborder = Instance.new("UIStroke",label)
+    theborder.Thickness = 2
 end
 HUDS[2] = function()
 	local text = "Aether"
@@ -1343,7 +1355,7 @@ HUD = Visuals.NewButton({
 					HUDS[2]()
 				end
 				library.Array.SortMode = ArraySortStyle.Option
-				library.Array.BackgroundTransparency = 0.3
+				library.Array.BackgroundTransparency = 1
 				library.Array.TextTransparency = 0
 				refreshArray()
 			end)
@@ -1440,8 +1452,15 @@ Fly = Motion.NewButton({
 	Keybind = Enum.KeyCode.R,
 	Function = function(callback)
 		if callback then
+        if FlySFX.Enabled then 
+        local sound = Instance.new("Sound")
+        sound.Volume = 3
+        sound.Looped = false
+        sound.Parent = game.workspace
+        sound.SoundId = "rbxassetid://8766809464"
+        sound:Play()
+        end
 			flycon = RunService.Heartbeat:Connect(function()
-            flying = true
 				local velo = PrimaryPart.Velocity
 				PrimaryPart.Velocity = Vector3.new(velo.X, 2.04, velo.Z)
 
@@ -1462,6 +1481,11 @@ Fly = Motion.NewButton({
 		end
 	end,
 })
+FlySFX = Fly.NewToggle({
+	Name = "ToggleSFX",
+	Function = function() end
+})
+
 local box = ScreenGui.Motion.Frame.Fly.DropDown.KeybindBox
 box.Visible = true
 box.Text = config.Keybinds.Fly
@@ -1651,19 +1675,24 @@ JumpPlates = Visuals.NewButton({
 	end,
 })
 
-local lastpos
 Antifall = Motion.NewButton({
-	Name = "Antifall",
+	Name = "Antivoid",
 	Function = function(callback)
 		if callback then
-			repeat
 				local velo = PrimaryPart.Velocity
-				if PrimaryPart.Position.Y < -5 then
-					PrimaryPart.Velocity = Vector3.new(velo.X, 120, velo.Z)
-				end
-
-				task.wait()
-			until not Antifall.Enabled
+				local antiPart = Instance.new("Part", game.workspace)
+                antiPart.Anchored = true
+                antiPart.Name = "AntiVoid"
+                antiPart.Transparency = 0.7
+                antiPart.Size = Vector3.new(2048,5,2048)
+                antiPart.CFrame = Vector3.new(0,-45,0)
+                antiPart.Touched:Connect(function(hit)
+                if hit.Parent:FindFirstChild("Humanoid") then
+                PrimaryPart.Velocity += Vector3.new(0, 50, 0)
+                end
+                end)
+			else 
+            game.workspace.AntiVoid:Destroy()
 		end
 	end,
 })
@@ -1681,69 +1710,6 @@ Nofall = Misc.NewButton({
 	end,
 })
 
-local ProjectileFire = getRemote("ProjectileFire")
-local function shoot(bow, pos)
-	local args = {}
-	local shootFormulaStart = pos + Vector3.new(0,1,0)
-	local shootFormulaDirection = Vector3.new(0,-100,0)
-	if bow.Name == "fireball" then
-		args = {
-			[1] = bow,
-			[2] = "fireball",
-			[3] = "fireball",
-			[4] = pos,
-			[5] = shootFormulaStart,
-			[6] = Vector3.new(0,-2,0),
-			[7] = tostring(game:GetService("HttpService"):GenerateGUID(true)),
-			[8] = {
-				["drawDurationSeconds"] = 1,
-				["shotId"] = tostring(game:GetService("HttpService"):GenerateGUID(false))
-			},
-			[9] =  workspace:GetServerTimeNow() - 0.04
-		}
-	elseif bow.Name == "snowball" then
-		args = {
-			[1] = bow,
-			[2] = "snowball",
-			[3] = "snowball",
-			[4] = pos,
-			[5] = shootFormulaStart,
-			[6] = Vector3.new(0,-5,0),
-			[7] = tostring(game:GetService("HttpService"):GenerateGUID(true)),
-			[8] = {
-				["drawDurationSeconds"] = 1,
-				["shotId"] = tostring(game:GetService("HttpService"):GenerateGUID(false))
-			},
-			[9] =  workspace:GetServerTimeNow() - 0.045
-		}
-	else
-		args = {
-			[1] = bow,
-			[2] = "arrow",
-			[3] = "arrow",
-			[4] = pos,
-			[5] = shootFormulaStart,
-			[6] = Vector3.new(0,-5,0),
-			[7] = tostring(game:GetService("HttpService"):GenerateGUID(true)),
-			[8] = {
-				["drawDurationSeconds"] = 1,
-				["shotId"] = tostring(game:GetService("HttpService"):GenerateGUID(false))
-			},
-			[9] =  workspace:GetServerTimeNow() - 0.045
-		}
-	end
-	ProjectileFire:InvokeServer(unpack(args))
-end
-
-local function getAllBows()
-	local bows = {}
-	for i,v in pairs(inventory:GetChildren()) do
-		if v.Name:find("bow") or v.Name:find("fireball") or v.Name:find("snowball") then
-			table.insert(bows,v)
-		end
-	end
-	return bows
-end
 
 
 local ConsumeRemote = getRemote("ConsumeItem")
@@ -2291,7 +2257,7 @@ Camera = Visuals.NewButton({
 				CurrentCamera.FieldOfView = 120
 			end)
             if CameraZoom.Enabled then
-                game.Players.LocalPlayer.CameraMaxZoomDistance = 15
+                game.Players.LocalPlayer.CameraMaxZoomDistance = 25
             end
 		else
 			CameraModificationCon:Disconnect()
@@ -2793,21 +2759,28 @@ end)
 
 
 
-BridgeInstant = Exploit.NewButton({
-    Name = "BridgeInstaWin",
-    Function = function(callback)
-        if callback then
-            repeat
-                task.wait(.1)
-                for i,v in workspace:GetDescendants() do
-                    if v:IsA('TouchTransmitter') then
-                        firetouchinterest(game.Players.LocalPlayer.Character.PrimaryPart, v.Parent, 1)
-                    end
-                end
-                until not BridgeInstant.Enabled
-        end
-    end,
+AutoWin = Exploit.NewButton({
+	Name = "AutoWin",
+	Function = function(callback)
+		if callback then
+			repeat
+				if AutoWinMode.Option == "Bridge" then
+					for i,v in workspace:GetDescendants() do
+						if v:IsA('TouchTransmitter') then
+							firetouchinterest(game.Players.LocalPlayer.Character.PrimaryPart, v.Parent, 1)
+						end
+					end
+				end
+				task.wait(.1)
+			until not AutoWin.Enabled
+		end
+	end,
 })
+AutoWinMode = AutoWin.NewPicker({
+	Name = "Mode",
+	Options = {"Bridge"}
+})
+
 
 
 function IsAlive(Player)
@@ -2833,8 +2806,8 @@ function FindNearestBed(MaxDistance)
 	local MaxDistance = MaxDistance or math.huge
 	local NearestBed = nil
 
-	for i, v in next, CollectionService:GetTagged("bed")do
-		if v:FindFirstChild("Blanket").BrickColor ~= LocalPlayer.Team.TeamColor then			
+	for i, v in next, CollectionService:GetTagged("bed") do
+		if v:FindFirstChild("Blanket").BrickColor ~= LocalPlayer.Team.TeamColor then
 			if v:GetAttribute("BedShieldEndTime") then 				
 				if v:GetAttribute("BedShieldEndTime") < Workspace:GetServerTimeNow() then
 					local Distance = (v.Position - LocalPlayer.Character.PrimaryPart.Position).Magnitude
@@ -3140,24 +3113,22 @@ SelfESPStyle = SelfESP.NewPicker({
 	Options = stylesofskybox
 })
 
-local toxic = false
+local ATConnect
+local ATMessages = {"Dying in a BLOCK game is sad","Why bother when AetherClient exists","LOL HOW DO YOU LOSE IN A BED GAME","AetherClient IS JUST BETTER","IVE NEVER LOST WITH AetherClient LOL"}
 Toxic = Misc.NewButton({
 	Name = "AutoToxic",
 	Function = function(callback)
 		if callback then
-                toxic = true
-            else
-            toxic = false
+			ATConnect = LocalPlayer.leaderstats:FindFirstChild("Kills").Changed:Connect(function()
+				newChat(ATMessages[math.random(1,#ATMessages)])
+			end)
+		else
+			pcall(function()
+				ATConnect:Disconnect()
+			end)
 		end
 	end,
 })
-
-LocalPlayer.leaderstats:FindFirstChild("Kills").Changed:Connect(function()
-if toxic == true then
-    local msgs = {"Dying in a BLOCK game is sad","Why bother when AetherClient exists","LOL HOW DO YOU LOSE IN A BED GAME","AetherClient IS JUST BETTER","IVE NEVER LOST WITH AetherClient LOL"}
-		newChat(msgs[math.random(1,5)])
-    end
-end)
 
 
 local sound = Instance.new("Sound")
@@ -3234,240 +3205,480 @@ Loop = Music.NewToggle({
 	Function = function() end
 })
 
-Godmode = Combat.NewButton({
-	Name = "MelodyGodMode",
-	Function = function(callback)
-		if callback then
-            repeat
-            task.wait(.1)
-local args = {
-    [1] = {
-        ["healTarget"] = game.Players.LocalPlayer
-    }
-}
-game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("PlayGuitar"):FireServer(unpack(args))
-until not Godmode.Enabled
+
+
+local ProjectileFire = getRemote("ProjectileFire")
+local function shoot(bow, pos)
+	local args = {}
+	local shootFormulaStart = pos + Vector3.new(0,2,0)
+	local shootFormulaDirection = Vector3.new(0,-100,0)
+
+	ProjectileFire:InvokeServer({
+		[1] = bow,
+		[2] = (bow.Name:lower():find("bow") and "arrow"),
+		[3] = (bow.Name:lower():find("bow") and "arrow"),
+		[4] = pos,
+		[5] = shootFormulaStart,
+		[6] = Vector3.new(0,-5,0),
+		[7] = tostring(game:GetService("HttpService"):GenerateGUID(true)),
+		[8] = {
+			["drawDurationSeconds"] = 1,
+			["shotId"] = tostring(game:GetService("HttpService"):GenerateGUID(false))
+		},
+		[9] =  workspace:GetServerTimeNow() - 0.045
+	})
+end
+
+local function getAllBows()
+	local bows = {}
+	for i,v in pairs(inventory:GetChildren()) do
+		if v.Name:find("bow") or v.Name:find("fireball") or v.Name:find("snowball") then
+			table.insert(bows,v)
 		end
-	end,
-})
-
-
+	end
+	return bows
+end
 
 Projectileaura = Combat.NewButton({
 	Name = "Projectileaura",
 	Function = function(callback)
 		if callback then
 			task.spawn(function()
-				repeat task.wait()
+				swingAnim = Instance.new("Animation")
+				swingAnim.AnimationId = funAnimations.SWORD_SWING
+				local track = Humanoid.Animator:LoadAnimation(swingAnim)
+				repeat
 					local target = getNearestPlayer(9e9)
-					if target then
+					local rangeCheck = getNearestPlayer(2)
+					local entity = target
+					if target and rangeCheck == nil then
 						local bows = getAllBows()
 						for i,v in pairs(bows) do
 							spoofHand(v.Name)
 							task.wait()
-							if v.Name == "fireball" or v.Name == "snowball" or v.Name == "lasso" then
-								if not AllProjectiles.Enabled then continue end
+							if v.Name == "fireball" or v.Name == "snowball" and not AllProjectiles.Enabled then
+								continue
 							end
 							shoot(v,target.Character.PrimaryPart.Position)
+							track:Play()
 						end
 					end
-				until not Projectileaura.Enabled
+					task.wait()
+				until (not Projectileaura.Enabled)
 			end)
-		else
-
 		end
 	end,
 })
-
 AllProjectiles = Projectileaura.NewToggle({
 	Name = "AllProjectiles",
 	Function = function() end
 })
 
-local function Buystonesword()
-    local args = {
-        [1] = {
-            ["shopItem"] = {
-                ["ignoredByKit"] = {
-                    [1] = "barbarian",
-                    [2] = "dasher",
-                    [3] = "frost_hammer_kit",
-                    [4] = "tinker"
-                },
-                ["itemType"] = "stone_sword",
-                ["price"] = 70,
-                ["superiorItems"] = {
-                    [1] = "iron_sword",
-                },
-                ["currency"] = "iron",
-                ["amount"] = 1,
-                ["lockAfterPurchase"] = true,
-                ["category"] = "Combat",
-                ["disabledInQueue"] = {
-                    [1] = "tnt_wars"
-                }
-            },
-            ["shopId"] = "1_item_shop"
-        }
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BedwarsPurchaseItem"):InvokeServer(unpack(args))
+local function AutoBuy()
+	local NearestNpc = FindNearestNpc(30)
+
+	if NearestNpc then	
+		local JadeHammer = {
+			[1] = {
+				["shopItem"] = {
+					["amount"] = 1,
+					["lockAfterPurchase"] = true,
+					["itemType"] = "jade_hammer",
+					["category"] = "Combat",
+					["price"] = 40,
+					["requiresKit"] = {
+						[1] = "jade"
+					},
+					["spawnWithItems"] = {
+						[1] = "jade_hammer"
+					},
+					["currency"] = "iron"
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		local GompyVacuum = {
+			[1] = {
+				["shopItem"] = {
+					["amount"] = 1,
+					["lockAfterPurchase"] = true,
+					["itemType"] = "vacuum",
+					["category"] = "Combat",
+					["price"] = 50,
+					["requiresKit"] = {
+						[1] = "ghost_catcher"
+					},
+					["spawnWithItems"] = {
+						[1] = "vacuum"
+					},
+					["currency"] = "iron"
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+		
+		local Guitar = {
+			[1] = {
+				["shopItem"] = {
+					["amount"] = 1,
+					["lockAfterPurchase"] = true,
+					["itemType"] = "guitar",
+					["category"] = "Combat",
+					["price"] = 16,
+					["requiresKit"] = {
+						[1] = "melody"
+					},
+					["spawnWithItems"] = {
+						[1] = "guitar"
+					},
+					["currency"] = "iron"
+				},
+				["shopId"] = "1_item_shop"
+			}
+		}
+
+		local Lasso = {
+			[1] = {
+				["shopItem"] = {
+					["amount"] = 1,
+					["lockAfterPurchase"] = true,
+					["itemType"] = "lasso",
+					["category"] = "Combat",
+					["price"] = 30,
+					["requiresKit"] = {
+						[1] = "cowgirl"
+					},
+					["spawnWithItems"] = {
+						[1] = "lasso"
+					},
+					["currency"] = "iron"
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		local Arrow = {
+			[1] = {
+				["shopItem"] = {
+					["currency"] = "iron",
+					["itemType"] = "arrow",
+					["amount"] = 8,
+					["price"] = 16,
+					["category"] = "Combat"
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		local Wool = {
+			[1] = {
+				["shopItem"] = {
+					["currency"] = "iron",
+					["itemType"] = "wool_white",
+					["amount"] = 16,
+					["price"] = 8,
+					["category"] = "Blocks"
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}		
+
+		local Bow = {
+			[1] = {
+				["shopItem"] = {
+					["ignoredByKit"] = {
+						[1] = "flower_bee"
+					},
+					["itemType"] = "wood_bow",
+					["price"] = 24,
+					["superiorItems"] = {
+						[1] = "wood_crossbow",
+						[2] = "tactical_crossbow"
+					},
+					["currency"] = "iron",
+					["category"] = "Combat",
+					["lockAfterPurchase"] = true,
+					["spawnWithItems"] = {
+						[1] = "wood_bow"
+					},
+					["amount"] = 1
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		local EmeraldArmor ={
+			[1] = {
+				["shopItem"] = {
+					["lockAfterPurchase"] = true,
+					["itemType"] = "emerald_chestplate",
+					["price"] = 40,
+					["customDisplayName"] = "Emerald Armor",
+					["currency"] = "emerald",
+					["category"] = "Combat",
+					["nextTier"] = "",
+					["ignoredByKit"] = {
+						[1] = "bigman"
+					},
+					["spawnWithItems"] = {
+						[1] = "emerald_helmet",
+						[2] = "emerald_chestplate",
+						[3] = "emerald_boots"
+					},
+					["amount"] = 1
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		local DiamondArmor ={
+			[1] = {
+				["shopItem"] = {
+					["lockAfterPurchase"] = true,
+					["itemType"] = "Diamond_chestplate",
+					["price"] = 8,
+					["customDisplayName"] = "Diamond Armor",
+					["currency"] = "emerald",
+					["category"] = "Combat",
+					["nextTier"] = "diamond_chestplate",
+					["ignoredByKit"] = {
+						[1] = "bigman"
+					},
+					["spawnWithItems"] = {
+						[1] = "diamond_helmet",
+						[2] = "diamond_chestplate",
+						[3] = "diamond_boots"
+					},
+					["amount"] = 1
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+		local IronArmor ={
+			[1] = {
+				["shopItem"] = {
+					["lockAfterPurchase"] = true,
+					["itemType"] = "iron_chestplate",
+					["price"] = 120,
+					["customDisplayName"] = "Iron Armor",
+					["currency"] = "iron",
+					["category"] = "Combat",
+					["nextTier"] = "diamond_chestplate",
+					["ignoredByKit"] = {
+						[1] = "bigman"
+					},
+					["spawnWithItems"] = {
+						[1] = "iron_helmet",
+						[2] = "iron_chestplate",
+						[3] = "iron_boots"
+					},
+					["amount"] = 1
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		local LeatherArmor ={
+			[1] = {
+				["shopItem"] = {
+					["lockAfterPurchase"] = true,
+					["itemType"] = "leather_chestplate",
+					["price"] = 50,
+					["customDisplayName"] = "Leather Armor",
+					["currency"] = "iron",
+					["category"] = "Combat",
+					["nextTier"] = "iron_chestplate",
+					["ignoredByKit"] = {
+						[1] = "bigman"
+					},
+					["spawnWithItems"] = {
+						[1] = "leather_helmet",
+						[2] = "leather_chestplate",
+						[3] = "leather_boots"
+					},
+					["amount"] = 1
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		local EmeraldSword = {
+			[1] = {
+				["shopItem"] = {
+					["disabledInQueue"] = {
+						[1] = "tnt_wars"
+					},
+					["itemType"] = "emerald_sword",
+					["price"] = 20,
+					["superiorItems"] = {
+						[1] = ""
+					},
+					["currency"] = "iron",
+					["amount"] = 1,
+					["ignoredByKit"] = {
+						[1] = "barbarian",
+						[2] = "dasher",
+						[3] = "frost_hammer_kit"
+					},
+					["category"] = "Combat",
+					["lockAfterPurchase"] = true
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		local VoidSword = {
+			[1] = {
+				["shopItem"] = {
+					["currency"] = "void_crystal",
+					["itemType"] = "void_sword",
+					["amount"] = 1,
+					["price"] = 10,
+					["category"] = "Void",
+					["ignoredByKit"] = {
+						[1] = "barbarian",
+						[2] = "dasher"
+					},
+					["lockAfterPurchase"] = true
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		local DiamondSword = {
+			[1] = {
+				["shopItem"] = {
+					["disabledInQueue"] = {
+						[1] = "tnt_wars"
+					},
+					["itemType"] = "diamond_sword",
+					["price"] = 4,
+					["superiorItems"] = {
+						[1] = "emerald_sword"
+					},
+					["currency"] = "emerald",
+					["amount"] = 1,
+					["ignoredByKit"] = {
+						[1] = "barbarian",
+						[2] = "dasher",
+						[3] = "frost_hammer_kit"
+					},
+					["category"] = "Combat",
+					["lockAfterPurchase"] = true
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		local IronSword = {
+			[1] = {
+				["shopItem"] = {
+					["disabledInQueue"] = {
+						[1] = "tnt_wars"
+					},
+					["itemType"] = "iron_sword",
+					["price"] = 70,
+					["superiorItems"] = {
+						[1] = "diamond_sword"
+					},
+					["currency"] = "iron",
+					["amount"] = 1,
+					["ignoredByKit"] = {
+						[1] = "barbarian",
+						[2] = "dasher",
+						[3] = "frost_hammer_kit"
+					},
+					["category"] = "Combat",
+					["lockAfterPurchase"] = true
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		local StoneSword = {
+			[1] = {
+				["shopItem"] = {
+					["disabledInQueue"] = {
+						[1] = "tnt_wars"
+					},
+					["itemType"] = "stone_sword",
+					["price"] = 20,
+					["superiorItems"] = {
+						[1] = "iron_sword"
+					},
+					["currency"] = "iron",
+					["amount"] = 1,
+					["ignoredByKit"] = {
+						[1] = "barbarian",
+						[2] = "dasher",
+						[3] = "frost_hammer_kit"
+					},
+					["category"] = "Combat",
+					["lockAfterPurchase"] = true
+				},
+				["shopId"] = NearestNpc.Name
+			}
+		}
+
+		task.spawn(function()
+			if HasItem("diamond_sword") then
+				PurchaseItem(EmeraldSword)
+			end
+
+			if HasItem("iron_sword") or HasItem("stone_sword") or HasItem("wood_sword") then
+				PurchaseItem(DiamondSword)
+			end
+
+			if HasItem("stone_sword") and HasItem("iron_chestplate") then
+				PurchaseItem(IronSword)
+			end
+
+			if HasItem("wood_sword") then
+				PurchaseItem(StoneSword)
+			end
+
+			PurchaseItem(VoidSword)
+		end)
+
+		task.spawn(function()
+			if HasItem("diamond_chestplate") then
+				PurchaseItem(EmeraldArmor)
+			end	
+
+			if HasItem("iron_chestplate") then
+				PurchaseItem(DiamondArmor)
+			end	
+
+			if HasItem("stone_sword") and not HasItem("iron_chestplate") and not HasItem("diamond_chestplate") and not HasItem("emerald_chestplate") then
+				PurchaseItem(LeatherArmor)
+			end	
+
+			if HasItem("leather_chestplate") then
+				PurchaseItem(IronArmor)
+			end					
+		end)
+
+		task.spawn(function()
+			if HasItem("iron_chestplate") and HasItem("iron_sword") and not HasItem("wood_bow") then
+				PurchaseItem(Bow)
+			end
+		end)
+
+		task.spawn(function()
+			if HasItem("iron_chestplate") and HasItem("iron_sword") and HasItem("wood_bow") then
+				PurchaseItem(Arrow)
+			end
+		end)
+
+		task.spawn(function()
+			if HasItem("iron_chestplate") and HasItem("iron_sword") and HasItem("wood_bow") and HasItem("arrow") then
+				PurchaseItem(Wool)
+			end
+		end)
+	end	
 end
 
-local function Buyironsword()
-    local args = {
-        [1] = {
-            ["shopItem"] = {
-                ["ignoredByKit"] = {
-                    [1] = "barbarian",
-                    [2] = "dasher",
-                    [3] = "frost_hammer_kit",
-                    [4] = "tinker"
-                },
-                ["itemType"] = "iron_sword",
-                ["price"] = 70,
-                ["superiorItems"] = {
-                    [1] = "diamond_sword",
-                },
-                ["currency"] = "iron",
-                ["amount"] = 1,
-                ["lockAfterPurchase"] = true,
-                ["category"] = "Combat",
-                ["disabledInQueue"] = {
-                    [1] = "tnt_wars"
-                }
-            },
-            ["shopId"] = "1_item_shop"
-        }
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BedwarsPurchaseItem"):InvokeServer(unpack(args))
-end
-
-local function BuyDiamondsword()
-    local args = {
-        [1] = {
-            ["shopItem"] = {
-                ["ignoredByKit"] = {
-                    [1] = "barbarian",
-                    [2] = "dasher",
-                    [3] = "frost_hammer_kit",
-                    [4] = "tinker"
-                },
-                ["itemType"] = "diamond_sword",
-                ["price"] = 70,
-                ["superiorItems"] = {
-                    [1] = "emerald_sword",
-                },
-                ["currency"] = "emerald",
-                ["amount"] = 1,
-                ["lockAfterPurchase"] = true,
-                ["category"] = "Combat",
-                ["disabledInQueue"] = {
-                    [1] = "tnt_wars"
-                }
-            },
-            ["shopId"] = "1_item_shop"
-        }
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BedwarsPurchaseItem"):InvokeServer(unpack(args))
-end
-
-local function BuyleatherArmor()
-    local args = {
-        [1] = {
-            ["shopItem"] = {
-                ["lockAfterPurchase"] = true,
-                ["itemType"] = "leather_chestplate",
-                ["price"] = 50,
-                ["customDisplayName"] = "Leather Armor",
-                ["superiorItems"] = {
-                    [1] = "iron_chestplate"
-                },
-                ["currency"] = "iron",
-                ["amount"] = 1,
-                ["category"] = "Combat",
-                ["ignoredByKit"] = {
-                    [1] = "bigman",
-                    [2] = "tinker"
-                },
-                ["spawnWithItems"] = {
-                    [1] = "leather_helmet",
-                    [2] = "leather_chestplate",
-                    [3] = "leather_boots"
-                },
-                ["nextTier"] = "iron_chestplate"
-            },
-            ["shopId"] = "1_item_shop"
-        }
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BedwarsPurchaseItem"):InvokeServer(unpack(args))
-end
-
-local function BuyIronArmor()
-    local args = {
-        [1] = {
-            ["shopItem"] = {
-                ["lockAfterPurchase"] = true,
-                ["itemType"] = "iron_chestplate",
-                ["price"] = 120,
-                ["prevTier"] = "leather_chestplate",
-                ["customDisplayName"] = "Iron Armor",
-                ["currency"] = "iron",
-                ["ignoredByKit"] = {
-                    [1] = "bigman",
-                    [2] = "tinker"
-                },
-                ["category"] = "Combat",
-                ["tiered"] = true,
-                ["nextTier"] = "diamond_chestplate",
-                ["spawnWithItems"] = {
-                    [1] = "iron_helmet",
-                    [2] = "iron_chestplate",
-                    [3] = "iron_boots"
-                },
-                ["amount"] = 1
-            },
-            ["shopId"] = "1_item_shop"
-        }
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BedwarsPurchaseItem"):InvokeServer(unpack(args))
-end
-
-local function BuyDiamondArmor()
-    local args = {
-        [1] = {
-            ["shopItem"] = {
-                ["lockAfterPurchase"] = true,
-                ["itemType"] = "Diamond_chestplate",
-                ["price"] = 8,
-                ["customDisplayName"] = "Diamond Armor",
-                ["superiorItems"] = {
-                    [1] = "iron_chestplate"
-                },
-                ["currency"] = "iron",
-                ["amount"] = 1,
-                ["category"] = "Combat",
-                ["ignoredByKit"] = {
-                    [1] = "bigman",
-                    [2] = "tinker"
-                },
-                ["spawnWithItems"] = {
-                    [1] = "diamond_helmet",
-                    [2] = "diamond_chestplate",
-                    [3] = "diamond_boots"
-                },
-                ["nextTier"] = "diamond_chestplate"
-            },
-            ["shopId"] = "1_item_shop"
-        }
-    }
-    
-    game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BedwarsPurchaseItem"):InvokeServer(unpack(args))
-end
 
 AutoBuy = Player.NewButton({
 	Name = "AutoBuy",
@@ -3475,21 +3686,7 @@ AutoBuy = Player.NewButton({
 		if callback then
 			task.spawn(function()
 				repeat task.wait(0.1)
-					if hasItem("wood_sword") then
-						Buystonesword()
-					end
-                    if hasItem("stone_sword") and not hasItem("iron_chestplate") and not hasItem("diamond_chestplate") and not hasItem("emerald_chestplate") then
-                        BuyleatherArmor()
-                    end
-                    if hasItem("leather_chestplate") then
-				        BuyIronArmor()
-			        end
-                    if hasItem("iron_sword") or hasItem("stone_sword") or hasItem("wood_sword") then
-				        BuyDiamondsword()
-			        end
-                    if hasItem("iron_chestplate") then
-				        BuyDiamondArmor()
-			        end
+                	AutoBuy()
 				until not AutoBuy.Enabled
 			end)
 		end
@@ -3582,31 +3779,28 @@ ESP = Visuals.NewButton({
 })
 
 
+local RequestPurchaseEra = getRemote("RequestPurchaseEra")
 AutoUpgradeEra = Player.NewButton({
 	Name = "AutoUpgradeEra",
 	Function = function(callback)
 		if callback then
-				repeat task.wait(0.1)
-                    local args = {
-                        [1] = {
-                            ["era"] = "iron_era"
-                        }
-                    }
-                    game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("RequestPurchaseEra"):InvokeServer(unpack(args))
-                    local args = {
-                        [1] = {
-                            ["era"] = "diamond_era"
-                        }
-                    }
-                    game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("RequestPurchaseEra"):InvokeServer(unpack(args))
-
-                    local args = {
-                        [1] = {
-                            ["era"] = "emerald_era"
-                        }
-                    }
-                    game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("RequestPurchaseEra"):InvokeServer(unpack(args))
-				until not AutoUpgradeEra.Enabled
+			repeat task.wait(0.1)
+				RequestPurchaseEra:InvokeServer({
+					[1] = {
+						["era"] = "iron_era"
+					}
+				})
+				RequestPurchaseEra:InvokeServer({
+					[1] = {
+						["era"] = "diamond_era"
+					}
+				})
+				RequestPurchaseEra:InvokeServer({
+					[1] = {
+						["era"] = "emerald_era"
+					}
+				})
+			until not AutoUpgradeEra.Enabled
 		end
 	end,
 })
@@ -3675,77 +3869,6 @@ Bypassmode = ScytheDisabler.NewPicker({
 })
 
 
-local cloneref = cloneref or function(data: userdata) return data end;
-local enchanttoggled  = false;
-local getservice = function(service: string)
-    return cloneref(game:FindService(service));
-end;
-
-local getrandomvalue = function(tab: table)
-    return #tab > 0 and tab[math.random(1, #tab)] or ''
-end;
-
-local replicatedstorage = getservice('ReplicatedStorage');
-local lplr = getservice('Players').LocalPlayer;
-local inputservice = getservice('UserInputService');
-local remote = replicatedstorage:WaitForChild('rbxts_include'):WaitForChild('node_modules'):WaitForChild('@rbxts'):WaitForChild('net'):WaitForChild('out'):WaitForChild('_NetManaged'):WaitForChild('RequestFortuneDoubleDown');
-local effects = {
-    'fire_3', 'forest_3', 'cloud_3', 'void_3', 'static_3', 'updraft_2', 
-    'shield_gen_3', 'anti_knockback_2', 'rapid_regen_3', 'execute_3', 
-    'wind_3', 'plunder_2', 'critical_strike_3', 'volley_3', 
-    'grounded_3', 'clingy_3', 'life_steal_3', 'fortune_1'
-}
-
-if renderexploit then 
-    pcall(task.cancel, renderexploit)
-end;
-
-renderexploit = task.spawn(function()
-    repeat 
-        task.wait()
-        if not enchanttoggled then 
-            continue
-        end;
-        for i,v in effects do 
-            remote:FireServer({statusEffectType = v})
-        end
-        task.wait(0.8)
-    until false;
-end);
-
-DupeExploit = Exploit.NewButton({
-	Name = "FortuneExploit",
-	Function = function(callback)
-		if callback then
-            DupeExploit.Enabled = true
-            enchanttoggled = callback
-            task.spawn(function()
-                repeat
-                    task.wait(0.1)
-                    
-                    local cloneref = cloneref or function(data)
-                        return data
-                    end
-                    
-                    local getservice = function(service)
-                        return cloneref(game:FindService(service))
-                    end
-                    
-                    local getrandomvalue = function(tab)
-                        return #tab > 0 and tab[math.random(1, #tab)] or ''
-                    end
-                    
-                    local remote = getservice('ReplicatedStorage'):WaitForChild('rbxts_include'):WaitForChild('node_modules'):WaitForChild('@rbxts'):WaitForChild('net'):WaitForChild('out'):WaitForChild('_NetManaged'):WaitForChild('RequestFortuneCashOut')
-                    remote:FireServer({
-                        statusEffectType = 'fortune_1',
-                        fortuneStacks = getrandomvalue({999999, 9e9})
-                    })
-                until not DupeExploit.Enabled
-            end)
-        else
-        end
-    end,
-})
 
 jellyfishExploit = Exploit.NewButton({
 	Name = "jellyfishExploit",
@@ -3840,7 +3963,7 @@ SemiAura = Legit.NewButton({
 	Function = function(callback)
 		if callback then
             auraConnection2 = RunService.Heartbeat:Connect(function()
-                local nearest = getNearestWallPlayer(10)
+                local nearest = getNearestPlayer(11)
 
                 if nearest ~= nil then
                     local nearestCharacter = nearest.Character
@@ -3882,7 +4005,7 @@ SemiAura = Legit.NewButton({
 
 			task.spawn(function()
 				repeat task.wait(.8)
-					if getNearestWallPlayer(10) ~= nil then
+					if getNearestPlayer(11) ~= nil then
 						pcall(function()
 							local animation = auraAnimations[auraAnimation.Option]
 							local allTime = 0
@@ -3907,7 +4030,7 @@ SemiAura = Legit.NewButton({
 
 			task.spawn(function()
 				repeat
-					local nearest = getNearestWallPlayer(10)
+					local nearest = getNearestPlayer(11)
 
 					if nearest ~= nil then
 						local isWinning = function()
@@ -4107,7 +4230,7 @@ AntiSuffocate = Motion.NewButton({
 		if callback then
 			repeat
 
-				local ray = Utilities.newRaycast(PrimaryPart.Position,Humanoid.MoveDirection * 2)
+				local ray = utils.newRaycast(PrimaryPart.Position,Humanoid.MoveDirection * 2)
 
 				if ray and hurttime < 50 then
 					PrimaryPart.CFrame += Vector3.new(0,5,0)
@@ -4127,7 +4250,7 @@ CustomHotbar = Visuals.NewButton({
 			CustomHotbarPart = Instance.new("Frame",ScreenGui)
 			CustomHotbarPart.Position = UDim2.fromScale(0.288,0.99)
 			CustomHotbarPart.AnchorPoint = Vector2.new(0,1)
-			CustomHotbarPart.Size = UDim2.fromScale(0.425,0.078)
+			CustomHotbarPart.Size = UDim2.fromScale(4.2,0.078)
 
 			local stroke = Instance.new("UIStroke",CustomHotbarPart)
 			stroke.Thickness = 7
@@ -4296,18 +4419,10 @@ local function GetEquippedKit()
 end
 
 local DestroyPetrifiedPlayerRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("DestroyPetrifiedPlayer")
-local HannahPromptTriggerRemote = nil
 local TrinitySetAngelTypeRemote = ReplicatedStorage:WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("SetAngelType")
 
-
-task.spawn(function()
-	if ClientGotten then
-		HannahPromptTriggerRemote = Client:Get("HannahPromptTrigger")
-	end	
-end)
-
 local function FindPetrifiedPlayer()
-	for i, v in next, WorkSpace:GetChildren() do		
+	for i, v in next, game.workspace:GetChildren() do		
 		if v:GetAttribute("PetrifyId") then
 			return v
 		end
@@ -4318,15 +4433,6 @@ local function AutoKit()
 	local PetrifiedPlayer = FindPetrifiedPlayer()
 	local NearestPlayer = getNearestPlayer(999999999)
 	local EquippedKit = GetEquippedKit()
-	
-	task.spawn(function()
-		if NearestPlayer then
-			if EquippedKit == "hannah" or nil then
-				HannahPromptTriggerRemote:CallServer({victimEntity = NearestPlayer.Character, ["user"] = LocalPlayer})
-			end
-		end
-	end)
-
 
 	task.spawn(function()
 		if PetrifiedPlayer then
@@ -4346,7 +4452,7 @@ end
 function RecallPlayer()
     game:GetService("VirtualInputManager"):SendKeyEvent(true, "C" , false , game)
     
-    task.wait(6.3)     
+    task.wait(6.35)     
     
     RecallPlayerTweenToNearestPlayer()
 end
@@ -4360,6 +4466,17 @@ AutoKit = Player.NewButton({
 			AutoKit()
 			task.wait(.1)
 			until not AutoKit.Enabled
+		end
+	end,
+})
+
+ToggleSFX = Misc.NewButton({
+	Name = "ToggleSound",
+	Function = function(callback)
+		if callback then
+            ToggleSound = true
+            else 
+            ToggleSound = false
 		end
 	end,
 })
