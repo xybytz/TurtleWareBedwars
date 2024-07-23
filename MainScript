@@ -666,10 +666,11 @@ Legit = library.NewWindow("Legit")
 
     	mobile.MouseButton1Down:Connect(function()
 		for i,v in pairs(ScreenGui:GetChildren()) do
-			if v.Name == "ArrayList" or v.Name == "Logo" or v.Name == "Stats" or v.Name == "Mark" then
+			if v.Name == "ArrayList" or v.Name == "Logo" or v.Name == "Stats" or v.Name == "ToggleUi" then
 				continue
 			end 
 			v.Visible = not v.Visible
+            label.Visible = true
 		end
 	end)
 
@@ -2780,7 +2781,7 @@ AutoWin = Exploit.NewButton({
 						end
 					end
 				end
-				task.wait(.5)
+				task.wait(.1)
 			until not AutoWin.Enabled
 		end
 	end,
