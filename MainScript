@@ -646,7 +646,7 @@ Legit = library.NewWindow("Legit")
 
     local mobile = Instance.new("TextButton", ScreenGui)
 	mobile.Position = UDim2.fromScale(0, 0.3)
-	mobile.Size = UDim2.fromScale(0.05, 0.08)
+	mobile.Size = UDim2.fromScale(0.04, 0.07)
     mobile.TextScaled = true
     mobile.TextColor3 = Color3.new(255,255,255)
 	mobile.BackgroundColor3 = Color3.new(0.333333, 0.286275, 0.074510)
