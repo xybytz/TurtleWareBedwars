@@ -2780,7 +2780,7 @@ AutoWin = Exploit.NewButton({
 						end
 					end
 				end
-				task.wait(.1)
+				task.wait(.5)
 			until not AutoWin.Enabled
 		end
 	end,
