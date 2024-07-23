@@ -671,6 +671,7 @@ Legit = library.NewWindow("Legit")
 			end 
 			v.Visible = not v.Visible
             label.Visible = true
+            CustomHotbarPart.Visible = true
 		end
 	end)
 
