@@ -1527,6 +1527,16 @@ Strafe = Motion.NewButton({
 		end
 	end,
 })
+local hmm
+Strafe = Motion.NewButton({
+	Name = "test hmm",
+	Function = function(callback)
+		if callback then
+			print("hmmmmm")
+		end
+	end,
+})
+
 
 local fpscon
 local fpscount = 0
