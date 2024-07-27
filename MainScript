@@ -3316,6 +3316,8 @@ AllProjectiles = Projectileaura.NewToggle({
 })
 
 
+
+
 local function Buystonesword()
     local args = {
         [1] = {
@@ -3346,7 +3348,7 @@ local function Buystonesword()
     game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BedwarsPurchaseItem"):InvokeServer(unpack(args))
 end
 
-local function BuyIronsword()
+local function Buyironsword()
     local args = {
         [1] = {
             ["shopItem"] = {
@@ -3577,17 +3579,14 @@ AutoBuy = Player.NewButton({
                     if hasItem("stone_sword") and not hasItem("iron_chestplate") and not hasItem("diamond_chestplate") and not hasItem("emerald_chestplate") then
                         BuyleatherArmor()
                     end
-                    if HasItem("stone_sword") or hasItem("wood_sword") then
-                        BuyIronsword()
-                    end
                     if hasItem("leather_chestplate") then
 				        BuyIronArmor()
 			        end
                     if hasItem("iron_sword") or hasItem("stone_sword") or hasItem("wood_sword") then
 				        BuyDiamondsword()
 			        end
-                    if hasItem("iron_sword") or hasItem("stone_sword") or hasItem("wood_sword") or hasItem("diamond_sword") then
-				        BuyEmeraldsword()
+                    if hasItem("iron_sword") or hasItem("stone_sword") or hasItem("wood_sword") then
+				        BuyDiamondsword()
 			        end
                     if hasItem("iron_chestplate") then
 				        BuyDiamondArmor()
@@ -3600,7 +3599,6 @@ AutoBuy = Player.NewButton({
 		end
 	end,
 })
-
 
 
 local ESPboxes = {}
