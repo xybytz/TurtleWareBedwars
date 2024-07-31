@@ -4397,3 +4397,13 @@ ToggleSFX = Misc.NewButton({
 		end
 	end,
 })
+
+
+ServerLagger = Exploit.NewButton({
+	Name = "SERVER LAGGER",
+	Function = function(callback)
+		if callback then
+		--this does nothing u bots thought id leak and make open src womp womp noobs gay niggas LMFAO
+		end
+	end,
+})
