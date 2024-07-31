@@ -2922,7 +2922,7 @@ local function Nuker(NearestBed)
 	end)
 end
 
-Nuke = Exploit.NewButton({
+BedNuker = Exploit.NewButton({
 	Name = "BedNuker",
 	Function = function(callback)
          task.spawn(function()
@@ -2935,7 +2935,7 @@ Nuke = Exploit.NewButton({
 							Nuker(NearestBed)
 						end
 				end
-            until not Nuke.Enabled
+            until not BedNuker.Enabled
     end)
 end
 })
