@@ -2939,7 +2939,16 @@ Nuke = Exploit.NewButton({
     end)
 end
 })
-
+local box7 = ScreenGui.Exploit.Frame.BedNuker.DropDown.KeybindBox
+box7.Visible = true
+box7.Text = config.Keybinds.BedNuker
+box7.Changed:Connect(function()
+if box7.Text ~= nil then
+    local uptext = box7.Text:upper()
+    box7.Text = uptext
+  library.Modules.BedNuker.Keybind = Enum.KeyCode[box7.Text]
+end
+end)
 
 function FindNearestPlayer(MaxDistance)
 	local NearestPlayerDistance = MaxDistance or math.huge
