@@ -2939,14 +2939,14 @@ Nuke = Exploit.NewButton({
     end)
 end
 })
-local box7 = ScreenGui.Exploit.Frame.Nuker.DropDown.KeybindBox
+local box7 = ScreenGui.Exploit.Frame.Nuke.DropDown.KeybindBox
 box7.Visible = true
-box7.Text = config.Keybinds.Nuker
+box7.Text = config.Keybinds.Nuke
 box7.Changed:Connect(function()
 if box7.Text ~= nil then
     local uptext = box7.Text:upper()
     box7.Text = uptext
-  library.Modules.Nuker.Keybind = Enum.KeyCode[box7.Text]
+  library.Modules.Nuke.Keybind = Enum.KeyCode[box7.Text]
 end
 end)
 
