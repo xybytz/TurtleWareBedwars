@@ -860,6 +860,9 @@ Killaura = Combat.NewButton({
 			auraConnection = RunService.Heartbeat:Connect(function()
 				local nearest = getNearestPlayer(22)
 				if nearest ~= nil then
+					if DragonAnimation.Enabled then
+						game:GetService("ReplicatedStorage").rbxts_include.node_modules["@rbxts"].net.out._NetManaged.DragonBreath:FireServer("")
+					end
 					local nearestCharacter = nearest.Character
 					local nearestPrimaryPartPosition = nearestCharacter.PrimaryPart.Position + Vector3.new(0, 2, 0)
 					local selfPrimaryPartPosition = PrimaryPart.Position
