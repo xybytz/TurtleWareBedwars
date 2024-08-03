@@ -2,9 +2,9 @@ task.spawn(function()
 			repeat
 				task.wait(WaitTime)
 				
-				local NearestPlayer = FindNearestPlayer(Settings.AntiHit.Range)
+				local NearestPlayer = getNearestPlayer(20)
 
-				if IsAlive(LocalPlayer) and NearestPlayer and GetMatchState() ~= 0 then
+				if IsAlive(LocalPlayer) and NearestPlayer then
 					LocalPlayer.Character.Archivable = true
 
 					local Clone = LocalPlayer.Character:Clone()
