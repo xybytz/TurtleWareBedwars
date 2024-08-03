@@ -859,45 +859,44 @@ Killaura = Combat.NewButton({
 		if callback then
 			auraConnection = RunService.Heartbeat:Connect(function()
 				local nearest = getNearestPlayer(22)
-
 				if nearest ~= nil then
 					if DragonAnimation.Enabled then
 						game:GetService("ReplicatedStorage").rbxts_include.node_modules["@rbxts"].net.out._NetManaged.DragonBreath:FireServer("")
 					end
 					local nearestCharacter = nearest.Character
-					local nearestPrimaryPartPosition = nearestCharacter.PrimaryPart.Position + Vector3.new(0,1,0)
+					local nearestPrimaryPartPosition = nearestCharacter.PrimaryPart.Position + Vector3.new(0, 2, 0)
 					local selfPrimaryPartPosition = PrimaryPart.Position
 					local weapon = getBestWeapon()
+
 					if not ToolCheck.Enabled then
 						spoofHand(weapon.Name)
-					end
+                    end
 
-					task.spawn(function()
-						AuraRemote:FireServer({
-							chargedAttack = {
-								chargeRatio = 0
-							},
-							entityInstance = nearestCharacter,
-							validate = {
-								raycast = {
-									cameraPosition = CurrentCamera,
-									cursorDirection = CFrame.LookVector
+                    task.spawn(function()
+                        AuraRemote:FireServer({
+                            chargedAttack = {
+                                chargeRatio = 0
+                            },
+                            entityInstance = nearestCharacter,
+                            validate = {
+                                raycast = {
+									cursorDirection = nearestCharacter.PrimaryPart.CFrame.LookVector
 								},
-								targetPosition = {
-									value = nearestPrimaryPartPosition
-								},
-								selfPosition = {
-									value = selfPrimaryPartPosition
-								},
-							},
-							weapon = weapon
-						})
-					end)
+                                targetPosition = {
+                                    value = nearestPrimaryPartPosition
+                                },
+                                selfPosition = {
+                                    value = selfPrimaryPartPosition
+                                },
+                            },
+                            weapon = weapon
+                        })
+                    end)
 				end
 			end)
 
 			task.spawn(function()
-				repeat task.wait()
+				repeat task.wait(0)
 					if getNearestPlayer(22) ~= nil then
 						pcall(function()
 							local animation = auraAnimations[auraAnimation.Option]
@@ -913,7 +912,7 @@ Killaura = Combat.NewButton({
 									end
 									animRunning = false
 									game.TweenService:Create(viewmodel,TweenInfo.new(1),{C0 = oldweld}):Play()
-								end
+                                end
 							end)
 							task.wait(allTime)
 						end)
@@ -921,14 +920,22 @@ Killaura = Combat.NewButton({
 				until (not Killaura.Enabled)
 			end)
 
+            task.spawn(function()
+				repeat task.wait()
+					if Rotations.Enabled then
+						local entity = getNearestPlayer(22)
+						if entity then
+							LocalPlayer.Character.PrimaryPart.CFrame = CFrame.lookAt(LocalPlayer.Character.PrimaryPart.Position, Vector3.new(entity.Character.PrimaryPart.Position.X, LocalPlayer.Character.PrimaryPart.Position.Y, entity.Character.PrimaryPart.Position.Z))
+						end
+					end
+				until (not Killaura.Enabled)
+			end)
+
 			task.spawn(function()
 				repeat
 					local nearest = getNearestPlayer(22)
-                    local nearestCharacter = nearest.Character
 
 					if nearest ~= nil then
-
-
 						local isWinning = function()
 							return nearest.Character.Humanoid.Health > Humanoid.Health
 						end
@@ -970,7 +977,7 @@ Killaura = Combat.NewButton({
 								targetInfo.Position = UDim2.fromScale(0.6,0.5)
 								targetInfo.TextColor3 = Color3.fromRGB(255,255,255)
 								targetInfo.Text = "  "..nearest.DisplayName
-								targetInfo.TextScaled = true
+								--targetInfo.TextScaled = true
 								targetInfo.TextXAlignment = Enum.TextXAlignment.Left
 							end)	
 						end
@@ -995,6 +1002,11 @@ Killaura = Combat.NewButton({
 
 local animAuraTab = {}
 for i,v in pairs(auraAnimations) do table.insert(animAuraTab,i) end
+
+DragonAnimation = Killaura.NewToggle({
+	Name = "DragonAnimation",
+	Function = function() end
+})
 auraAnimation = Killaura.NewPicker({
 	Name = "Animations",
 	Options = animAuraTab
@@ -1003,19 +1015,19 @@ CustomAnimation = Killaura.NewToggle({
 	Name = "Animations",
 	Function = function() end
 })
-ToolCheck = Killaura.NewToggle({
-	Name = "ToolCheck",
-	Function = function() end
-})
-DragonAnimation = Killaura.NewToggle({Name = "DragonAnimation", Function = function() end})
-DmgInd = Killaura.NewToggle({
-	Name = "DamageIndacators",
-	Function = function() end
-})
 TargetHudMode = Killaura.NewPicker({
 	Name = "TargetHud",
 	Options = {"None", "Basic", "Basic2"}
 })
+ToolCheck = Killaura.NewToggle({
+	Name = "ToolCheck",
+	Function = function() end
+})
+Rotations = Killaura.NewToggle({
+    Name = "Rotations",
+    Function = function() end
+})
+
 local box5 = ScreenGui.Combat.Frame.Killaura.DropDown.KeybindBox
 box5.Visible = true
 box5.Text = config.Keybinds.Killaura
@@ -1098,9 +1110,9 @@ ImageESPStyle = ImageESP.NewPicker({
 })
 
 local infFlyPart
+local InfiniteFlyConnection
 InfiniteFly = Motion.NewButton({
 	Name = "InfiniteFly",
-    Keybind = Enum.KeyCode.H,
 	Function = function(callback)
 		if callback then
 			infFlyPart = Instance.new("Part",workspace)
@@ -1108,14 +1120,14 @@ InfiniteFly = Motion.NewButton({
 			infFlyPart.CanCollide = true
 			infFlyPart.CFrame = PrimaryPart.CFrame
 			infFlyPart.Size = Vector3.new(.5 ,.5, .5)
-            if RootPartShow.Enabled then
-                infFlyPart.Transparency = 0
-            elseif not RootPartShow.Enabled then
-			    infFlyPart.Transparency = 1
-            end
-			PrimaryPart.CFrame += Vector3.new(0,1000000,0)
+            infFlyPart.Transparency = 1
+
+			PrimaryPart.CFrame += Vector3.new(0,1000000)
+
 			CurrentCamera.CameraSubject = infFlyPart
-			repeat task.wait()
+
+			InfiniteFlyConnection = RunService.Heartbeat:Connect(function()
+				task.wait()
 				if PrimaryPart.Position.Y < infFlyPart.Position.Y then
 					PrimaryPart.CFrame += Vector3.new(0,1000000,0)
 				end
@@ -1128,14 +1140,14 @@ InfiniteFly = Motion.NewButton({
 				end
 
 				infFlyPart.CFrame = CFrame.new(PrimaryPart.CFrame.X,infFlyPart.CFrame.Y,PrimaryPart.CFrame.Z)
-			until not InfiniteFly.Enabled
+			end)
 
 		else
 			pcall(function()
-
-				for i = 1,10 do task.wait(0.01)
-					PrimaryPart.Velocity = Vector3.new(0,0,0)
-					PrimaryPart.CFrame = infFlyPart.CFrame
+				InfiniteFlyConnection:Disconnect()
+				for i = 1,15 do task.wait(0.01)
+					PrimaryPart.Velocity = Vector3.new(0,-5,0)
+					PrimaryPart.CFrame = infFlyPart.CFrame + Vector3.new(0,3,0)
 				end
 
 				infFlyPart:Remove()
@@ -1145,10 +1157,7 @@ InfiniteFly = Motion.NewButton({
 		end
 	end,
 })
-RootPartShow = InfiniteFly.NewToggle({
-	Name = "ShowRoot",
-	Function = function() end
-})
+
 local box2 = ScreenGui.Motion.Frame.InfiniteFly.DropDown.KeybindBox
 box2.Visible = true
 box2.Text = config.Keybinds.InfiniteFly
@@ -2932,7 +2941,7 @@ local function Nuker(NearestBed)
 	end)
 end
 
-Nuke = Exploit.NewButton({
+BedNuker = Exploit.NewButton({
 	Name = "BedNuker",
 	Function = function(callback)
          task.spawn(function()
@@ -2945,11 +2954,10 @@ Nuke = Exploit.NewButton({
 							Nuker(NearestBed)
 						end
 				end
-            until not Nuke.Enabled
+            until not BedNuker.Enabled
     end)
 end
 })
-
 
 function FindNearestPlayer(MaxDistance)
 	local NearestPlayerDistance = MaxDistance or math.huge
@@ -3326,6 +3334,8 @@ AllProjectiles = Projectileaura.NewToggle({
 })
 
 
+
+
 local function Buystonesword()
     local args = {
         [1] = {
@@ -3356,7 +3366,7 @@ local function Buystonesword()
     game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("node_modules"):WaitForChild("@rbxts"):WaitForChild("net"):WaitForChild("out"):WaitForChild("_NetManaged"):WaitForChild("BedwarsPurchaseItem"):InvokeServer(unpack(args))
 end
 
-local function BuyIronsword()
+local function Buyironsword()
     local args = {
         [1] = {
             ["shopItem"] = {
@@ -3587,17 +3597,14 @@ AutoBuy = Player.NewButton({
                     if hasItem("stone_sword") and not hasItem("iron_chestplate") and not hasItem("diamond_chestplate") and not hasItem("emerald_chestplate") then
                         BuyleatherArmor()
                     end
-                    if HasItem("stone_sword") or hasItem("wood_sword") then
-                        BuyIronsword()
-                    end
                     if hasItem("leather_chestplate") then
 				        BuyIronArmor()
 			        end
                     if hasItem("iron_sword") or hasItem("stone_sword") or hasItem("wood_sword") then
 				        BuyDiamondsword()
 			        end
-                    if hasItem("iron_sword") or hasItem("stone_sword") or hasItem("wood_sword") or hasItem("diamond_sword") then
-				        BuyEmeraldsword()
+                    if hasItem("iron_sword") or hasItem("stone_sword") or hasItem("wood_sword") then
+				        BuyDiamondsword()
 			        end
                     if hasItem("iron_chestplate") then
 				        BuyDiamondArmor()
@@ -3610,7 +3617,6 @@ AutoBuy = Player.NewButton({
 		end
 	end,
 })
-
 
 
 local ESPboxes = {}
@@ -4407,6 +4413,42 @@ ToggleSFX = Misc.NewButton({
             ToggleSound = true
             else 
             ToggleSound = false
+		end
+	end,
+})
+
+
+ServerLagger = Exploit.NewButton({
+	Name = "SERVER LAGGER",
+	Function = function(callback)
+		if callback then
+		--this does nothing u bots thought id leak and make open src womp womp noobs gay niggas LMFAO
+		end
+	end,
+})
+
+
+NoKillHUD = Misc.NewButton({
+    Name = "NoKillHUD",
+    Function = function(callback)
+        if callback then
+            task.spawn(function()
+                LocalPlayer.PlayerGui.KillFeedGui.Parent = workspace
+            end)
+        else
+            workspace.KillFeedGui.Parent = LocalPlayer.PlayerGui
+        end
+    end,
+})
+
+local TimerCon
+Timer = Player.NewButton({
+	Name = "Timer",
+	Function = function(callback)
+		if callback then
+			workspace.Gravity = 85
+		else
+			workspace.Gravity = 196.2
 		end
 	end,
 })
