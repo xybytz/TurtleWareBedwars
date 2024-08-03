@@ -1114,7 +1114,7 @@ local InfiniteFlyConnection
 InfiniteFly = Motion.NewButton({
 	Name = "InfiniteFly",
 	Function = function(callback)
-		if callback then
+		if callback or UserInputService:IsKeyDown(Enum.KeyCode.H) then
 			infFlyPart = Instance.new("Part",workspace)
 			infFlyPart.Anchored = true
 			infFlyPart.CanCollide = true
