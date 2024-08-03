@@ -2004,26 +2004,7 @@ AntiHit = Motion.NewButton({
 	Name = "AntiHit",
 	Function = function(callback)
 		if callback then
-			local lastHit = tick()
-			repeat
-				
-				local nearest = getNearestPlayer(14)
-				
-				if (hurttime <= 50) and nearest then
-					
-					if (AntiHitSafe and tick() - lastHit > 0.4) then
-						PrimaryPart.CFrame = nearest.Character.PrimaryPart.CFrame + nearest.Character.PrimaryPart.CFrame.LookVector * -6+ Vector3.new(0,2,0)
-
-						lastHit = tick()
-					else
-						PrimaryPart.CFrame = nearest.Character.PrimaryPart.CFrame + nearest.Character.PrimaryPart.CFrame.LookVector * -6 + Vector3.new(0,2,0)
-					end
-					
-				end
-
-				lastHP = Humanoid.Health
-				task.wait()
-			until not DamageBoost.Enabled
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/xybytz/TurtleWareBedwars/main/functions/antihit"))()
 		end
 	end,
 })
