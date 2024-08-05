@@ -1999,84 +1999,76 @@ InvisMethod = InvisibleExploit.NewPicker({
 	Options = {"2", "1"}
 })
 
-local AntiHitSafe = false
-AntiHit = Motion.NewButton({
-	Name = "AntiHit",
-	Function = function(callback)
-		if callback then
-			local a
-			task.spawn(function()
-				repeat
-					task.wait()
 
-					local NearestPlayer = getNearestPlayer(36)
+function IsAlive(plr)
+    plr = plr or lplr
+    if not plr.Character then return false end
+    if not plr.Character:FindFirstChild("Head") then return false end
+    if not plr.Character:FindFirstChild("Humanoid") then return false end
+    if plr.Character:FindFirstChild("Humanoid").Health < 0.11 then return false end
+    return true
+end
 
-					if LocalPlayer and NearestPlayer then
-						LocalPlayer.Character.Archivable = true
-						
-						local Clone = LocalPlayer.Character:Clone()
-						Clone.Parent = Workspace
-						Clone.Name = "Clone"
-						
-						Camera.CameraSubject = Clone
+run(function()
+    local GodMode = {Enabled = false}
+    GodMode = Exploit.NewButton({
+        Name = "Funny AntiHit",
+        Function = function(callback)
+            if callback then
+spawn(function()
+while task.wait() do
+if game.Players.LocalPlayer.Character.HumanoidRootPart then
+for i, v in pairs(game:GetService("Players"):GetChildren()) do
+if v.Team ~= lplr.Team and IsAlive(v) and IsAlive(lplr) then
+if v and v ~= lplr then
+local TargetDistance = lplr:DistanceFromCharacter(v.Character:FindFirstChild("HumanoidRootPart").CFrame.p)
+if TargetDistance < 25 then
+if not lplr.Character.HumanoidRootPart:FindFirstChildOfClass("BodyVelocity") then
+repeat task.wait() until store.matchState ~= 0
+if not (v.Character.HumanoidRootPart.Velocity.Y < -10*5) then
+lplr.Character.Archivable = true
 
-						task.spawn(function()
-							for _, v in ipairs(Clone:FindFirstChild("Head"):GetDescendants()) do
-								v:Destroy()
-							end
+local Clone = lplr.Character:Clone()
+Clone.Parent = workspace
+Clone.Head:ClearAllChildren()
+gameCamera.CameraSubject = Clone:FindFirstChild("Humanoid")
 
-							for _, v in ipairs(Clone:GetChildren()) do
-								if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
-									v.Transparency = 1
-								end
-								
-								if v:IsA("Accessory") then
-									v:FindFirstChild("Handle").Transparency = 1
-								end
-							end
-						end)
+for i,v in pairs(Clone:GetChildren()) do
+if string.lower(v.ClassName):find("part") and v.Name ~= "HumanoidRootPart" then
+v.Transparency = 1
+end
+if v:IsA("Accessory") then
+v:FindFirstChild("Handle").Transparency = 1
+end
+end
 
-						LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame + Vector3.new(0, 100000, 0)
+lplr.Character.HumanoidRootPart.CFrame = lplr.Character.HumanoidRootPart.CFrame + Vector3.new(0,100000,0)
 
-						task.spawn(function()
-							repeat
-								task.wait()
+game:GetService("RunService").RenderStepped:Connect(function()
+if Clone ~= nil and Clone:FindFirstChild("HumanoidRootPart") then
+Clone.HumanoidRootPart.Position = Vector3.new(lplr.Character.HumanoidRootPart.Position.X, Clone.HumanoidRootPart.Position.Y, lplr.Character.HumanoidRootPart.Position.Z)
+end
+end)
 
-								if Clone:FindFirstChild("HumanoidRootPart") then
-									Clone.HumanoidRootPart.Position = Vector3.new(
-										LocalPlayer.Character.HumanoidRootPart.Position.X,
-										Clone.HumanoidRootPart.Position.Y,
-										LocalPlayer.Character.HumanoidRootPart.Position.Z
-									)
-								end
-							until not Clone
-						end)
-
-						task.wait(0.2)
-
-						LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(
-							LocalPlayer.Character.HumanoidRootPart.Velocity.X,
-							-1,
-							LocalPlayer.Character.HumanoidRootPart.Velocity.Z
-						)
-						LocalPlayer.Character.HumanoidRootPart.CFrame = Clone.HumanoidRootPart.CFrame
-						
-						Camera.CameraSubject = LocalPlayer.Character
-						Clone:Destroy()
-
-						task.wait(0.5)
-					end
-				until a ~= a
-			end)
-		end
-	end,
-})
-AntiHitSafe = AntiHit.NewToggle({
-	Name = "Safe",
-	Function = function(v)
-		AntiHitSafe = v
-	end
-})
+task.wait(0.3)
+lplr.Character.HumanoidRootPart.Velocity = Vector3.new(lplr.Character.HumanoidRootPart.Velocity.X, -1, lplr.Character.HumanoidRootPart.Velocity.Z)
+lplr.Character.HumanoidRootPart.CFrame = Clone.HumanoidRootPart.CFrame
+gameCamera.CameraSubject = lplr.Character:FindFirstChild("Humanoid")
+Clone:Destroy()
+task.wait(0.15)
+end
+end
+end
+end
+end
+end
+end
+end
+end)
+end
+        end
+    })
+end)
 
 AutoDip = Misc.NewButton({
 	Name = "AutoDip",
